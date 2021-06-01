@@ -24,61 +24,57 @@ public class MainApp {
 
         File[] Repertoire = repertoireCible.listFiles(); //Place chaque fichiers du répertoire dans un tableau
 
-        Ini iniFile = new Ini(new File("C:\\Users\\achampag\\IdeaProjects\\file-monitor\\src\\main\\java\\param.iniFile"));
-        String key = iniFile.get("header", "key");
-        long keyint = Long.parseLong(key.trim());
-
-
-        System.out.println("Voici la liste complète des fichiers du dossier:"); //Affichage du tableau
-        for (File path : Repertoire) {
-            System.out.println(path);
-        }
+        long keyint = getIntervalFromConfig("C:\\Users\\achampag\\IdeaProjects\\file-monitor\\src\\main\\java\\param.txt");
 
 
         boolean presenceVieuxFichiers = false;
         String presenceVieuxFichiersString = "";
         long vielleDate = keyint * 60 * 1000;
 
+
         Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         long currentDateConverted = currentDate.getTime();
 
         File plusVieuxFichier = null;
+
         int cptNbrFichiers = 0;
-        ArrayList<File> listeVieuxFichiers = new ArrayList<File>();
 
-        if (Repertoire != null) {
 
-            for (File f : Repertoire) {
-                if ((f.lastModified() + vielleDate) < currentDateConverted) {
+        for (File f : Repertoire) {
+
+            if ((f.lastModified() + vielleDate) < currentDateConverted) {
+                if(plusVieuxFichier == null){
                     plusVieuxFichier = f;
-                    presenceVieuxFichiers = true;
-                    cptNbrFichiers++;
-                    listeVieuxFichiers.add(f);
+                }
+                if(f.lastModified() < plusVieuxFichier.lastModified()){
+                    plusVieuxFichier= f;
                 }
 
-            }
-            System.out.print("Y'a t'il des vieux fichiers ? ");
 
+                presenceVieuxFichiers = true;
+                cptNbrFichiers++;
 
-            if (presenceVieuxFichiers) {
-                presenceVieuxFichiersString = "Oui";
-            } else {
-                presenceVieuxFichiersString = "Non";
-            }
-
-            System.out.println("Il y a " + cptNbrFichiers + " vieux fichiers dans le répertoire");
-            System.out.println("En voici la liste :");
-
-            if (listeVieuxFichiers != null) {
-                for (File file : listeVieuxFichiers) {
-                    System.out.println(file);
-                }
-            } else {
-                System.out.println("Il n'y en à pas");
             }
 
         }
 
-        return "Presence de vieux fichiers  : " + presenceVieuxFichiersString + ". Si oui : Il y'en a : " + cptNbrFichiers +" et " + (Repertoire.length - cptNbrFichiers) + " fichiers récents";
+        if (presenceVieuxFichiers) {
+            presenceVieuxFichiersString = "Oui";
+        } else {
+            presenceVieuxFichiersString = "Non";
+        }
+
+        return "Presence de vieux fichiers  : " + presenceVieuxFichiersString + ". Si oui : Il y'en a : " + cptNbrFichiers +" et " + (Repertoire.length - cptNbrFichiers) + " fichiers récents"+ " Le plus vieux ficher est : " + plusVieuxFichier + " et date de :" + plusVieuxFichier.lastModified() ;
     }
+
+
+    public static long getIntervalFromConfig(String path) throws IOException {
+
+        Ini iniFile = new Ini(new File(path));
+        String key = iniFile.get("global", "intervalInMinute");
+        long intervalInMinute = Long.parseLong(key.trim());
+        return intervalInMinute;
+
+    }
+
 }
