@@ -5,15 +5,12 @@ import org.ini4j.Ini;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.sql.Timestamp;
-import java.util.Date;
 
 
 public class MainApp {
 
     public static String ScanRepertoire(File repertoireCible) throws IOException {
-
         File[] repertoire = repertoireCible.listFiles(); //Place chaque fichiers du répertoire dans un tableau
         if (repertoire == null){
             throw new FileNotFoundException("Le repertoire n'existe pas " + repertoireCible);
