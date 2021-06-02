@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.cjp.filemonitor.filescanner.MainApp.ScanRepertoire;
+import static com.cjp.filemonitor.filescanner.MainApp.*;
 
 
 public class SimpleEmail {
@@ -17,10 +17,10 @@ public class SimpleEmail {
 
         boolean isOn = true;
         while (isOn){
-            File repertoireVise = new File("C:\\Users\\achampag\\IdeaProjects\\file-monitor\\src\\main\\java\\Sara");
+            File repertoireVise = new File(getStringFromConfig("C:\\Users\\achampag\\IdeaProjects\\file-monitor\\src\\main\\java\\param.ini", "global","directory"));
             System.out.println("SimpleEmail Start");
             String smtpHostServer = "owa.clermont.unicancer.fr";
-            String emailID = "Alexandre.CHAMPAGNAC@clermont.unicancer.fr";
+            String emailID = MainApp.getStringFromConfig("C:\\Users\\achampag\\IdeaProjects\\file-monitor\\src\\main\\java\\param.ini","email","to");
 
 
             Properties props = System.getProperties();
