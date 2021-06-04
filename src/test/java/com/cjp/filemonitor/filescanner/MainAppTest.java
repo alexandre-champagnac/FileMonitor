@@ -12,31 +12,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class MainAppTest {
 
-    @Test
-    public void shouldBeLower(){
-        long var1 = 102303030;
-        long var2 = 255455455;
 
-        boolean testvar = MainApp.isTimestampLowerThan(var1,var2);
-
-
-        if(testvar == false){
-            fail();
-        }
-    }
-
-    @Test
-    public void shouldnotBeLower(){
-        long var1 = 255455455;
-        long var2 = 102303030;
-
-        boolean testvar = MainApp.isTimestampLowerThan(var1,var2);
-
-
-        if(testvar == true){
-            fail();
-        }
-    }
 
 
     @Test
@@ -65,10 +41,6 @@ public class MainAppTest {
         if(!test.equals("email@email.com")){
             fail("This result may be email@email.com");
         }
-
-
-
-
     }
 
 

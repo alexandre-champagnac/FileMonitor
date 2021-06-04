@@ -1,5 +1,6 @@
 package com.cjp.filemonitor.filescanner;
 
+import com.cjp.filemonitor.inputs.DirectoryMonitor;
 import org.ini4j.Ini;
 
 import java.io.File;
@@ -31,21 +32,7 @@ public class MainApp {
         int oldFileCounter = 0;
 
 
-        for (File currentFile : repertoire) {
 
-            if (isTimestampLowerThan(currentFile.lastModified() , limite)){
-                if(plusVieuxFichier == null){
-                    plusVieuxFichier = currentFile;
-                }
-                if(isTimestampLowerThan(currentFile.lastModified() , plusVieuxFichier.lastModified())){
-                    plusVieuxFichier= currentFile;
-                }
-                presenceVieuxFichiers = true;
-                oldFileCounter++;
-
-            }
-
-        }
 
         String presenceVieuxFichiersString = "";
 
@@ -98,14 +85,7 @@ public class MainApp {
 
 
 
-    public static boolean isTimestampLowerThan(long var1, long var2){
 
-        boolean isLower = true;
-        if (var1 > var2){
-            isLower = false;
-        }
 
-        return isLower;
-    }
 
 }
