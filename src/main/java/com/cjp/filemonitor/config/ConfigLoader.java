@@ -22,12 +22,14 @@ public class ConfigLoader {
         String directory = inifile.get("global", "directory");
         String email = inifile.get("email", "to");
         String intervalString = inifile.get("global", "intervalInMinute");
+        String smtpHostServer = inifile.get("global","smtpHostServer");
         long interval = Long.parseLong(intervalString);
 
         AppConfig conf = new AppConfig();
         conf.setEmailTo(email);
         conf.setMonitoringDirectory(directory);
         conf.setMonitoringLifespan(interval);
+        conf.setSmtpHostServer(smtpHostServer);
 
 
         return conf;

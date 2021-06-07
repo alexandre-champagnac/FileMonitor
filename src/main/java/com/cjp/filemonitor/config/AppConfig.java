@@ -5,6 +5,7 @@ public class AppConfig {
     private String monitoringDirectory;
     private long monitoringLifespan;
     private String emailTo;
+    private String smtpHostServer;
 
     public String getMonitoringDirectory() {
         return monitoringDirectory;
@@ -30,4 +31,11 @@ public class AppConfig {
         this.emailTo = emailTo;
     }
 
+    public String getSmtpHostServer() {
+        return smtpHostServer;
+    }
+
+    public void setSmtpHostServer(String smtpHostServer) {
+        this.smtpHostServer = smtpHostServer;
+    }
 }

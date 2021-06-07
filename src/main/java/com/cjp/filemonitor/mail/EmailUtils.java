@@ -12,12 +12,33 @@ import java.util.Properties;
 
 public class EmailUtils {
 
-    public void sendEmail(String subject, String body, String toEmail) throws MessagingException, IOException {
+
+
+    private String toEmail;
+    private String smtpHostServer;
+    private Session session;
+
+    public String getToEmail() {
+        return toEmail;
+    }
+
+
+    public EmailUtils(String toEmail, String smtpHostServer) {
+        this.toEmail = toEmail;
+        this.smtpHostServer = smtpHostServer;
+    }
+
+    public void createSession(){
 
         Properties properties = System.getProperties();
-        Session session = Session.getInstance(properties, null);
-        String smtpHostServer = "owa.clermont.unicancer.fr";
         properties.put("mail.smtp.host", smtpHostServer);
+        this.session = Session.getInstance(properties,null);
+
+    }
+
+    public void sendEmail(String subject, String body) throws MessagingException, IOException {
+
+
         MimeMessage Email = new MimeMessage(session);
 
 
