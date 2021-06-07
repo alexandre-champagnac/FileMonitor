@@ -1,30 +1,26 @@
 package com.cjp.filemonitor.inputs;
 
-import com.cjp.filemonitor.filescanner.MainApp;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.FileAttribute;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class DirectoryMonitorTest {
 
     @Test
     public void shouldReturnsEmptyListIfDirectoryIsEmpty() throws IOException {
         Path dir = Files.createTempDirectory(null, new FileAttribute[]{});
-        DirectoryMonitor monitor = new DirectoryMonitor();
+        DirectoryMonitor monitor = new DirectoryMonitor(dir);
 
-        List<File> oldFiles = monitor.analyseDirectory(dir, 0L);
+        List<File> oldFiles = monitor.analyseDirectory(0L);
 
         if (oldFiles.size() != 0) {
             fail("returned list should be empty when folder is empty");
@@ -36,8 +32,8 @@ public class DirectoryMonitorTest {
         Path dir = Files.createTempDirectory(null, new FileAttribute[]{});
         Files.createFile(dir.resolve("file.txt"));
 
-        DirectoryMonitor monitor = new DirectoryMonitor();
-        List<File> oldFiles = monitor.analyseDirectory(dir, 0L);
+        DirectoryMonitor monitor = new DirectoryMonitor(dir);
+        List<File> oldFiles = monitor.analyseDirectory( 0L);
 
         if (oldFiles.size() != 0) {
             fail("returned list should be empty when folder is empty");
@@ -51,8 +47,8 @@ public class DirectoryMonitorTest {
         Files.createFile(dir.resolve("file2.txt"));
         Files.createFile(dir.resolve("file3.txt"));
 
-        DirectoryMonitor monitor = new DirectoryMonitor();
-        List<File> oldFiles = monitor.analyseDirectory(dir, LocalDateTime.now().plusDays(30).toEpochSecond(ZoneOffset.UTC) * 1000);
+        DirectoryMonitor monitor = new DirectoryMonitor(dir);
+        List<File> oldFiles = monitor.analyseDirectory(LocalDateTime.now().plusDays(30).toEpochSecond(ZoneOffset.UTC) * 1000);
 
         if (oldFiles.size() != 3) {
             fail("expected to have 3 files, got only " + oldFiles.size());
@@ -63,7 +59,7 @@ public class DirectoryMonitorTest {
     public void shouldBeLower(){
         long var1 = 102303030;
         long var2 = 255455455;
-        DirectoryMonitor test = new DirectoryMonitor();
+        DirectoryMonitor test = new DirectoryMonitor(null);
 
         boolean testvar = test.isTimestampLowerThan(var1,var2);
 
@@ -77,7 +73,7 @@ public class DirectoryMonitorTest {
     public void shouldNotBeLower(){
         long var1 = 255455455;
         long var2 = 102303030;
-        DirectoryMonitor test = new DirectoryMonitor();
+        DirectoryMonitor test = new DirectoryMonitor(null);
 
         boolean testvar = test.isTimestampLowerThan(var1,var2);
 
@@ -94,7 +90,7 @@ public class DirectoryMonitorTest {
         long var1 = 255455455;
         long var2 = 255455455;
 
-        DirectoryMonitor test = new DirectoryMonitor();
+        DirectoryMonitor test = new DirectoryMonitor(null);
 
         boolean testvar = test.isTimestampLowerThan(var1,var2);
 

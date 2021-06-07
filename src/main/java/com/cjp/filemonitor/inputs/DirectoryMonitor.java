@@ -1,27 +1,31 @@
 package com.cjp.filemonitor.inputs;
 
-import com.cjp.filemonitor.Main;
-import com.cjp.filemonitor.filescanner.MainApp;
-
-import javax.management.StringValueExp;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DirectoryMonitor {
 
+    private Path directory;
+
+    public Path getDirectory() {
+        return directory;
+    }
+
+    public DirectoryMonitor(Path directory) {
+        this.directory = directory;
+    }
+
     /**
      * Read a directory and return all the files older than filesOlderThanTimestamp
      *
-     * @param directory
      * @param filesOlderThanTimestamp number of xxxxxxx for a file to be consider old
-     * @return
+     * @returns
      */
-    public List<File> analyseDirectory(Path directory, long filesOlderThanTimestamp) throws IOException {
+    public  List<File> analyseDirectory(long filesOlderThanTimestamp) throws IOException {
         File targetFile = new File(directory.toString());
 
         File[] folder = targetFile.listFiles();
@@ -49,6 +53,8 @@ public class DirectoryMonitor {
 
         return fileList;
     }
+
+
 
 
     boolean isTimestampLowerThan(long var1, long var2){

@@ -27,7 +27,7 @@ public class ConfigLoader {
         AppConfig conf = new AppConfig();
         conf.setEmailTo(email);
         conf.setMonitoringDirectory(directory);
-        conf.setMonitoringInterval(interval);
+        conf.setMonitoringLifespan(interval);
 
 
         return conf;

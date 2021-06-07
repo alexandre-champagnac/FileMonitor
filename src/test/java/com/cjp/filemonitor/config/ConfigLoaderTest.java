@@ -29,7 +29,7 @@ class ConfigLoaderTest {
 
         AppConfig given = ConfigLoader.loadConfigFromIniFile(path);
 
-        if (given.getMonitoringInterval() != 12) {
+        if (given.getMonitoringLifespan() != 12) {
             fail("wrong monitoring interval");
         }
         if (!given.getMonitoringDirectory().equals("C:\bonjour")) {

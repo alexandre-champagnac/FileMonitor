@@ -3,7 +3,7 @@ package com.cjp.filemonitor.config;
 
 public class AppConfig {
     private String monitoringDirectory;
-    private long monitoringInterval;
+    private long monitoringLifespan;
     private String emailTo;
 
     public String getMonitoringDirectory() {
@@ -14,12 +14,12 @@ public class AppConfig {
         this.monitoringDirectory = monitoringDirectory;
     }
 
-    public long getMonitoringInterval() {
-        return monitoringInterval;
+    public long getMonitoringLifespan() {
+        return monitoringLifespan;
     }
 
-    void setMonitoringInterval(long monitoringInterval) {
-        this.monitoringInterval = monitoringInterval;
+    void setMonitoringLifespan(long monitoringLifespan) {
+        this.monitoringLifespan = monitoringLifespan;
     }
 
     public String getEmailTo() {
