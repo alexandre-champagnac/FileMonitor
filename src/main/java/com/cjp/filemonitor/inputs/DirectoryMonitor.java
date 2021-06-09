@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DirectoryMonitor {
+public class DirectoryMonitor implements GlobalMonitor {
 
     private Path directory;
 
@@ -19,43 +19,6 @@ public class DirectoryMonitor {
         this.directory = directory;
     }
 
-    /**
-     * Read a directory and return all the files older than filesOlderThanTimestamp
-     *
-     * @param filesOlderThanTimestamp number of xxxxxxx for a file to be consider old
-     * @returns
-     */
-    public  List<File> analyseDirectory(long filesOlderThanTimestamp) throws IOException {
-        File targetFile = new File(directory.toString());
-
-        File[] folder = targetFile.listFiles();
-        if (folder == null){
-            throw new FileNotFoundException("Le repertoire n'existe pas " + targetFile);
-        }
-
-        File oldestFile = null;
-        ArrayList<File> fileList = new ArrayList<File>();
-
-        for (File currentFile : folder) {
-
-            if (isTimestampLowerThan(currentFile.lastModified() , filesOlderThanTimestamp)){
-                if(oldestFile == null){
-                    oldestFile = currentFile;
-                }
-                if(isTimestampLowerThan(currentFile.lastModified() , oldestFile.lastModified())){
-                    oldestFile = currentFile;
-                }
-
-                fileList.add(currentFile);
-            }
-
-        }
-
-        return fileList;
-    }
-
-
-
 
     boolean isTimestampLowerThan(long var1, long var2){
         boolean isLower = true;
@@ -66,4 +29,36 @@ public class DirectoryMonitor {
         return isLower;
     }
 
+
+    @Override
+    public MonitoringReport analyse(long deadline) throws Exception {
+        File targetFile = directory.toFile();
+
+        File[] folder = targetFile.listFiles();
+        if (folder == null){
+            throw new FileNotFoundException("Le repertoire n'existe pas " + targetFile);
+        }
+
+        File oldestFile = null;
+        ArrayList<File> oldFileList = new ArrayList<File>();
+
+        for (File currentFile : folder) {
+
+            if (isTimestampLowerThan(currentFile.lastModified() , deadline)){
+                if(oldestFile == null){
+                    oldestFile = currentFile;
+                }
+                if(isTimestampLowerThan(currentFile.lastModified() , oldestFile.lastModified())){
+                    oldestFile = currentFile;
+                }
+
+                oldFileList.add(currentFile);
+            }
+
+        }
+
+        DirectoryReport report = new DirectoryReport(directory, oldFileList.size());
+
+        return  report;
+    }
 }

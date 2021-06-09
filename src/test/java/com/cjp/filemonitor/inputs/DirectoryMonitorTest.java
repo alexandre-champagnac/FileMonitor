@@ -16,42 +16,63 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class DirectoryMonitorTest {
 
     @Test
-    public void shouldReturnsEmptyListIfDirectoryIsEmpty() throws IOException {
+    public void shouldReturnsEmptyListIfDirectoryIsEmpty() throws Exception {
         Path dir = Files.createTempDirectory(null, new FileAttribute[]{});
         DirectoryMonitor monitor = new DirectoryMonitor(dir);
 
-        List<File> oldFiles = monitor.analyseDirectory(0L);
+        MonitoringReport report = monitor.analyse(0L);
 
-        if (oldFiles.size() != 0) {
+        if(!(report instanceof DirectoryReport)){
+            fail("the instance is not the instance excepted");
+        }
+
+        DirectoryReport report1 = (DirectoryReport) report;
+
+        if (report1.getCptOldFiles() != 0) {
             fail("returned list should be empty when folder is empty");
         }
     }
 
     @Test
-    public void shouldReturnsEmptyListIfDirectoryContainsRecentFiles() throws IOException {
+    public void shouldReturnsEmptyListIfDirectoryContainsRecentFiles() throws Exception {
         Path dir = Files.createTempDirectory(null, new FileAttribute[]{});
         Files.createFile(dir.resolve("file.txt"));
 
         DirectoryMonitor monitor = new DirectoryMonitor(dir);
-        List<File> oldFiles = monitor.analyseDirectory( 0L);
 
-        if (oldFiles.size() != 0) {
+        MonitoringReport report = monitor.analyse(0L);
+
+        if(!(report instanceof DirectoryReport)){
+            fail("the instance is not the instance excepted");
+        }
+
+        DirectoryReport report1 = (DirectoryReport) report;
+
+        if (report1.getCptOldFiles() != 0) {
             fail("returned list should be empty when folder is empty");
         }
     }
 
     @Test
-    public void shouldReturnsFileOlderThanTimestamp() throws IOException {
+    public void shouldReturnsFileOlderThanTimestamp() throws Exception {
         Path dir = Files.createTempDirectory(null, new FileAttribute[]{});
         Files.createFile(dir.resolve("file.txt"));
         Files.createFile(dir.resolve("file2.txt"));
         Files.createFile(dir.resolve("file3.txt"));
 
         DirectoryMonitor monitor = new DirectoryMonitor(dir);
-        List<File> oldFiles = monitor.analyseDirectory(LocalDateTime.now().plusDays(30).toEpochSecond(ZoneOffset.UTC) * 1000);
 
-        if (oldFiles.size() != 3) {
-            fail("expected to have 3 files, got only " + oldFiles.size());
+        MonitoringReport report = monitor.analyse(LocalDateTime.now().plusDays(30).toEpochSecond(ZoneOffset.UTC) * 1000);
+
+        if(!(report instanceof DirectoryReport)){
+            fail("the instance is not the instance excepted");
+        }
+
+        DirectoryReport report1 = (DirectoryReport) report;
+
+
+        if (report1.getCptOldFiles() != 3) {
+            fail("expected to have 3 files, got only " + report1.getCptOldFiles());
         }
     }
 
