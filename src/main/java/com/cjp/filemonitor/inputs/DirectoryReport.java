@@ -19,7 +19,7 @@ public class DirectoryReport implements MonitoringReport {
 
     @Override
     public String toHTMLReport() {
-        return "Dans le dossier correspondant à :" + path + "Nous avons trouver " + cptOldFiles + "fichiers trop vieux";
+        return "Dans le dossier correspondant à :" + path + "Nous avons trouver " + cptOldFiles + "fichiers trop vieux ";
     }
 
 

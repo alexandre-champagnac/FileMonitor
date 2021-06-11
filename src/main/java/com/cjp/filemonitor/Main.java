@@ -2,6 +2,7 @@ package com.cjp.filemonitor;
 
 import com.cjp.filemonitor.config.AppConfig;
 import com.cjp.filemonitor.config.ConfigLoader;
+import com.cjp.filemonitor.inputs.DatabaseMonitor;
 import com.cjp.filemonitor.inputs.DirectoryMonitor;
 import com.cjp.filemonitor.inputs.GlobalMonitor;
 import com.cjp.filemonitor.inputs.MonitoringReport;
@@ -23,6 +24,7 @@ public class Main {
         List<GlobalMonitor> monitors = new ArrayList<>();
         monitors.add(new DirectoryMonitor(Path.of(appConfig.getMonitoringDirectory())));
         monitors.add(new DirectoryMonitor(Path.of("C:\\Users\\achampag\\.tmp\\folder2")));
+        monitors.add(new DatabaseMonitor());
         long deadline = (System.currentTimeMillis() - (appConfig.getMonitoringLifespan()* 60 * 1000));
         int cpt = 1;
         EmailUtils mailSender = new EmailUtils(appConfig.getEmailTo(),  appConfig.getSmtpHostServer());
@@ -45,16 +47,25 @@ public class Main {
         }
 
         */
+        //Creation d'une liste de result Arraylist<> result = new Arraylist
+
+        //result.add report.toHTMLReport
 
 
+        //mailSender.sendmail("subject",results)
 
+
+        String forEmail = "";
       for(GlobalMonitor monitor : monitors){
 
             MonitoringReport report = monitor.analyse(deadline);
-            mailSender.sendEmail("Recap FileMonitoring", report.toHTMLReport());
+            forEmail += report.toHTMLReport();
 
 
-        }
+      }
+
+
+        mailSender.sendEmail("Recap FileMonitoring", forEmail);
 
 
 
