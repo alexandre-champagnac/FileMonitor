@@ -4,6 +4,8 @@ public interface MonitoringReport {
 
     String toHTMLReport();
 
+
+    boolean hasProblem();
     
 
 

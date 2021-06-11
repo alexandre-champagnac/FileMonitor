@@ -23,9 +23,15 @@ public class DataBaseReport implements MonitoringReport{
         if (!isOldentriesPresent){
             return "Il n'y à pas de soucis";
         }else{
-            return "Dans la bdd correspondant à :" + dbname + " les fichiers ne partent pas depuis : " + lastModified + "";
+            return "Database Report : <b>"+ dbname + "</b> les fichiers ne partent pas depuis : <b>" + lastModified + "</b>";
         }
 
 
+    }
+
+    @Override
+    public boolean hasProblem() {
+
+        return isOldentriesPresent;
     }
 }

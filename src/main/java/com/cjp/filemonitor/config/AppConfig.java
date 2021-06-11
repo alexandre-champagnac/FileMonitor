@@ -6,6 +6,10 @@ public class AppConfig {
     private long monitoringLifespan;
     private String emailTo;
     private String smtpHostServer;
+    private String urlDb;
+    private String pseudoDb;
+    private String password;
+
 
     public String getMonitoringDirectory() {
         return monitoringDirectory;
@@ -37,5 +41,29 @@ public class AppConfig {
 
     public void setSmtpHostServer(String smtpHostServer) {
         this.smtpHostServer = smtpHostServer;
+    }
+
+    public String getUrlDb() {
+        return urlDb;
+    }
+
+    public void setUrlDb(String urlDb) {
+        this.urlDb = urlDb;
+    }
+
+    public String getPseudoDb() {
+        return pseudoDb;
+    }
+
+    public void setPseudoDb(String pseudoDb) {
+        this.pseudoDb = pseudoDb;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

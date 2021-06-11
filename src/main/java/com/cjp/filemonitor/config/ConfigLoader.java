@@ -23,6 +23,10 @@ public class ConfigLoader {
         String email = inifile.get("email", "to");
         String intervalString = inifile.get("global", "intervalInMinute");
         String smtpHostServer = inifile.get("global","smtpHostServer");
+        String urlDb = inifile.get("bdd","url");
+        String pseudoDb = inifile.get("bdd","pseudo");
+        String passwordDb= inifile.get("bdd","password");
+
         long interval = Long.parseLong(intervalString);
 
         AppConfig conf = new AppConfig();
@@ -30,6 +34,9 @@ public class ConfigLoader {
         conf.setMonitoringDirectory(directory);
         conf.setMonitoringLifespan(interval);
         conf.setSmtpHostServer(smtpHostServer);
+        conf.setUrlDb(urlDb);
+        conf.setPseudoDb(pseudoDb);
+        conf.setPassword(passwordDb);
 
 
         return conf;

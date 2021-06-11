@@ -2,14 +2,14 @@ package com.cjp.filemonitor.inputs;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DirectoryMonitor implements GlobalMonitor {
 
     private Path directory;
+
+    private boolean isOldFilepresent = false;
 
     public Path getDirectory() {
         return directory;
@@ -31,6 +31,11 @@ public class DirectoryMonitor implements GlobalMonitor {
 
 
     @Override
+    public void initialize() throws Exception {
+
+    }
+
+    @Override
     public MonitoringReport analyse(long deadline) throws Exception {
         File targetFile = directory.toFile();
 
@@ -47,6 +52,7 @@ public class DirectoryMonitor implements GlobalMonitor {
             if (isTimestampLowerThan(currentFile.lastModified() , deadline)){
                 if(oldestFile == null){
                     oldestFile = currentFile;
+                    isOldFilepresent = true;
                 }
                 if(isTimestampLowerThan(currentFile.lastModified() , oldestFile.lastModified())){
                     oldestFile = currentFile;
@@ -57,8 +63,15 @@ public class DirectoryMonitor implements GlobalMonitor {
 
         }
 
-        DirectoryReport report = new DirectoryReport(directory, oldFileList.size());
+        DirectoryReport report = new DirectoryReport(directory, oldFileList.size(),isOldFilepresent);
 
         return  report;
     }
+
+    @Override
+    public void close() throws Exception {
+
+    }
+
+
 }
