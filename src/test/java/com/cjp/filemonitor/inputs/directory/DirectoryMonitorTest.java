@@ -1,15 +1,15 @@
-package com.cjp.filemonitor.inputs;
+package com.cjp.filemonitor.inputs.directory;
 
+import com.cjp.filemonitor.inputs.MonitoringReport;
+import com.cjp.filemonitor.inputs.directory.DirectoryMonitor;
+import com.cjp.filemonitor.inputs.directory.DirectoryReport;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileAttribute;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -76,48 +76,6 @@ public class DirectoryMonitorTest {
         }
     }
 
-    @Test
-    public void shouldBeLower(){
-        long var1 = 102303030;
-        long var2 = 255455455;
-        DirectoryMonitor test = new DirectoryMonitor(null);
 
-        boolean testvar = test.isTimestampLowerThan(var1,var2);
-
-
-        if(testvar == false){
-            fail();
-        }
-    }
-
-    @Test
-    public void shouldNotBeLower(){
-        long var1 = 255455455;
-        long var2 = 102303030;
-        DirectoryMonitor test = new DirectoryMonitor(null);
-
-        boolean testvar = test.isTimestampLowerThan(var1,var2);
-
-
-
-
-        if(testvar == true){
-            fail();
-        }
-    }
-
-    @Test
-    public void shouldNotBeLowerIfEqual(){
-        long var1 = 255455455;
-        long var2 = 255455455;
-
-        DirectoryMonitor test = new DirectoryMonitor(null);
-
-        boolean testvar = test.isTimestampLowerThan(var1,var2);
-
-        if(testvar){
-            fail("Equals values should not be considered lower");
-        }
-    }
 
 }

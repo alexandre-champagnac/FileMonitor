@@ -12,15 +12,9 @@ import java.util.Properties;
 
 public class EmailUtils {
 
-
-
-    private String toEmail;
-    private String smtpHostServer;
+    private final String toEmail;
+    private final String smtpHostServer;
     private Session session;
-
-    public String getToEmail() {
-        return toEmail;
-    }
 
 
     public EmailUtils(String toEmail, String smtpHostServer) {
@@ -29,9 +23,9 @@ public class EmailUtils {
     }
 
     public void createSession(){
-
         Properties properties = System.getProperties();
         properties.put("mail.smtp.host", smtpHostServer);
+
         this.session = Session.getInstance(properties,null);
 
     }
@@ -39,30 +33,30 @@ public class EmailUtils {
     public void sendEmail(String subject, String body) throws MessagingException, IOException {
 
 
-        MimeMessage Email = new MimeMessage(session);
+        MimeMessage email = new MimeMessage(session);
 
 
         //Config Message Header
 
-        Email.addHeader("Content-type", "text/HTML; charset=UTF-8");
-        Email.addHeader("format", "flowed");
-        Email.addHeader("Content-Transfer-Encoding", "8bit");
+        email.addHeader("Content-type", "text/HTML; charset=UTF-8");
+        email.addHeader("format", "flowed");
+        email.addHeader("Content-Transfer-Encoding", "8bit");
 
 
         //Config the expeditor
-        Email.setFrom(new InternetAddress("filemonitor@noreply.com", "NoReply-FileMonitor"));
+        email.setFrom(new InternetAddress("filemonitor@noreply.com", "NoReply-FileMonitor"));
 
-        Email.setReplyTo(InternetAddress.parse("no_reply@example.com", false));
-        Email.setSubject(subject, "UTF-8");
-        Email.setContent(body, "text/html; charset=UTF-8");
+        email.setReplyTo(InternetAddress.parse("no_reply@example.com", false));
+        email.setSubject(subject, "UTF-8");
+        email.setContent(body, "text/html; charset=UTF-8");
 
-        Email.setSentDate(new Date());
+        email.setSentDate(new Date());
 
 
         //Send the message
-        Email.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
+        email.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
         System.out.println("Message is config");
-        Transport.send(Email);
+        Transport.send(email);
 
         System.out.println("Email Sent !");
 

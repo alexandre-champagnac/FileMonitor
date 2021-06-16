@@ -26,6 +26,13 @@ public class ConfigLoader {
         String urlDb = inifile.get("bdd","url");
         String pseudoDb = inifile.get("bdd","pseudo");
         String passwordDb= inifile.get("bdd","password");
+        String smbUser = inifile.get("samba","smbUsername");
+        String smbPassword = inifile.get("samba","smbPassword");
+        String smbPath = inifile.get("samba","smbPath");
+        String smbhostName = inifile.get("samba","smbHostName");
+        String smbShareName = inifile.get("samba","smbShareName");
+        String smbSearchpattern = inifile.get("samba","smbSearchPattern");
+
 
         long interval = Long.parseLong(intervalString);
 
@@ -37,6 +44,12 @@ public class ConfigLoader {
         conf.setUrlDb(urlDb);
         conf.setPseudoDb(pseudoDb);
         conf.setPassword(passwordDb);
+        conf.setSambausername(smbUser);
+        conf.setSambapassword(smbPassword);
+        conf.setSambaPath(smbPath);
+        conf.setSmbhostName(smbhostName);
+        conf.setShareName(smbShareName);
+        conf.setSearchPattern(smbSearchpattern);
 
 
         return conf;

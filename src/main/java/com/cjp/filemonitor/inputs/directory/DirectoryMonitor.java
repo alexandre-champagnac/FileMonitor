@@ -1,33 +1,26 @@
-package com.cjp.filemonitor.inputs;
+package com.cjp.filemonitor.inputs.directory;
+
+import com.cjp.filemonitor.inputs.GlobalMonitor;
+import com.cjp.filemonitor.inputs.MonitoringReport;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-public class DirectoryMonitor implements GlobalMonitor {
+public class DirectoryMonitor extends GlobalMonitor {
 
-    private Path directory;
+    private final Path directory;
 
     private boolean isOldFilepresent = false;
 
-    public Path getDirectory() {
-        return directory;
-    }
 
     public DirectoryMonitor(Path directory) {
         this.directory = directory;
     }
 
 
-    boolean isTimestampLowerThan(long var1, long var2){
-        boolean isLower = true;
-        if (var1 > var2 || var1 == var2){
-            isLower = false;
-        }
 
-        return isLower;
-    }
 
 
     @Override

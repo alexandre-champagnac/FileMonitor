@@ -1,20 +1,19 @@
-package com.cjp.filemonitor.inputs;
+package com.cjp.filemonitor.inputs.database;
+
 import com.cjp.filemonitor.config.AppConfig;
-import com.cjp.filemonitor.config.ConfigLoader;
+import com.cjp.filemonitor.inputs.GlobalMonitor;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.sql.*;
 
-public class DatabaseMonitor implements GlobalMonitor {
+public class DatabaseMonitor extends GlobalMonitor {
 
-    private AppConfig config;
+    private final AppConfig config;
     private Connection connex;
 
     public DatabaseMonitor(AppConfig config) {
         this.config = config;
     }
-
 
 
     @Override
@@ -24,26 +23,19 @@ public class DatabaseMonitor implements GlobalMonitor {
     }
 
     public DataBaseReport analyse(long deadline) throws SQLException, IOException {
-
-
-
-
         String query = "SELECT MAX(date) as OldestDate FROM simulentries";
         PreparedStatement preparedStatement = connex.prepareStatement(query);
         ResultSet results = preparedStatement.executeQuery();
         Date date = null;
 
-        while(results.next()){
+        while (results.next()) {
             date = results.getDate(1);
         }
 
-        boolean isOldEntriesPresent = false;
-        if(date.getTime() > deadline){
-            isOldEntriesPresent = true;
-        }
+        boolean isOldEntriesPresent = date.getTime() > deadline;
 
 
-        DataBaseReport reportdb = new DataBaseReport(date, config.getUrlDb(),isOldEntriesPresent);
+        DataBaseReport reportdb = new DataBaseReport(date, config.getUrlDb(), isOldEntriesPresent);
 
         return reportdb;
 
@@ -51,7 +43,7 @@ public class DatabaseMonitor implements GlobalMonitor {
 
     @Override
     public void close() throws Exception {
-        //TODO: implement me
+        connex.close();
     }
 
 
