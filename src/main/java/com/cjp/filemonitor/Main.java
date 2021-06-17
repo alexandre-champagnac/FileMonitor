@@ -16,11 +16,15 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        AppConfig appConfig = ConfigLoader.loadConfigFromIniFile(Path.of("C:\\Users\\achampag\\paramini\\config.test.ini"));
+        if (args.length < 1) {
+            System.out.println("first parameter must be the absolute path to the .ini config file");
+            return;
+        }
+        String configPath = args[0];
+        AppConfig appConfig = ConfigLoader.loadConfigFromIniFile(Path.of(configPath));
 
         List<GlobalMonitor> monitors = new ArrayList<>();
         monitors.add(new DirectoryMonitor(Path.of(appConfig.getMonitoringDirectory())));
-        monitors.add(new DirectoryMonitor(Path.of("C:\\Users\\achampag\\.tmp\\folder2")));
         monitors.add(new DatabaseMonitor(appConfig));
         monitors.add(new SambaMonitor(appConfig));
 

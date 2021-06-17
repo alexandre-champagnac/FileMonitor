@@ -23,37 +23,30 @@ public class DatabaseMonitor extends GlobalMonitor {
     }
 
     public DataBaseReport analyse(long deadline) throws SQLException, IOException {
-        /*
+        //*
         String query = "SELECT MAX(datespool), `from` FROM CPSUREPROXY.ALLMESSAGE WHERE `from` LIKE '%@apicrypt.fr'";
         /*/
         String query = "SELECT MAX(date) as OldestDate FROM simulentries";
         //*/
         PreparedStatement preparedStatement = connex.prepareStatement(query);
         ResultSet results = preparedStatement.executeQuery();
-        Date date = null;
+        Timestamp timestamp = null;
 
 
         results.next();
-        date = results.getDate(1);
+        timestamp = results.getTimestamp(1);
 
 
 
 
-        if(date == null){
+        if(timestamp == null){
             return  new DataBaseReport(new java.util.Date(),config.getUrlDb(),false);
-
         }
 
-        boolean isOldEntriesPresent = date.getTime() > deadline;
-        return new DataBaseReport(date, config.getUrlDb(), isOldEntriesPresent);
-
-
-
-
-
-
-
-
+        if (isTimestampLowerThan(timestamp.getTime(), deadline)) {
+            return new DataBaseReport(new Date(timestamp.getTime()), config.getUrlDb(), true);
+        }
+        return new DataBaseReport(new Date(timestamp.getTime()), config.getUrlDb(), false);
     }
 
     @Override
