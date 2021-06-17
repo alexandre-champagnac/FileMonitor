@@ -16,7 +16,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        AppConfig appConfig = ConfigLoader.loadConfigFromIniFile(Path.of("C:\\Users\\achampag\\paramini\\param.ini"));
+        AppConfig appConfig = ConfigLoader.loadConfigFromIniFile(Path.of("C:\\Users\\achampag\\paramini\\config.test.ini"));
 
         List<GlobalMonitor> monitors = new ArrayList<>();
         monitors.add(new DirectoryMonitor(Path.of(appConfig.getMonitoringDirectory())));

@@ -25,6 +25,10 @@ public class SambaReport implements MonitoringReport {
     @Override
     public boolean hasProblem() {
         boolean problem = true;
+
+
+
+
         if(isOldFilesPresents){
             problem = true;
         }
