@@ -22,7 +22,7 @@ public class DirectoryReport implements MonitoringReport {
 
     @Override
     public String toHTMLReport() {
-        return "<li style=\"text-align: center;\">Directory Report : Dans le dossier correspondant à <b>" + path + "</b> nous avons trouver <b>" + cptOldFiles +"</b> fichiers trop vieux</li>\n";
+        return "Directory Report : Dans le dossier correspondant à " + path + " nous avons trouver " + cptOldFiles +" fichiers trop vieux\n";
     }
 
     @Override

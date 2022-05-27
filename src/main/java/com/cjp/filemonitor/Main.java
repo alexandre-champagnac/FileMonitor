@@ -4,10 +4,9 @@ import com.cjp.filemonitor.config.AppConfig;
 import com.cjp.filemonitor.config.ConfigLoader;
 import com.cjp.filemonitor.inputs.GlobalMonitor;
 import com.cjp.filemonitor.inputs.MonitoringReport;
-import com.cjp.filemonitor.inputs.database.DatabaseMonitor;
 import com.cjp.filemonitor.inputs.directory.DirectoryMonitor;
-import com.cjp.filemonitor.inputs.samba.SambaMonitor;
-import com.cjp.filemonitor.mail.EmailUtils;
+
+
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -25,12 +24,6 @@ public class Main {
 
         List<GlobalMonitor> monitors = new ArrayList<>();
         monitors.add(new DirectoryMonitor(Path.of(appConfig.getMonitoringDirectory())));
-        monitors.add(new DatabaseMonitor(appConfig));
-        monitors.add(new SambaMonitor(appConfig));
-
-        long deadline = (System.currentTimeMillis() - (appConfig.getMonitoringLifespan() * 60 * 1000));
-        EmailUtils mailSender = new EmailUtils(appConfig.getEmailTo(), appConfig.getSmtpHostServer());
-        mailSender.createSession();
 
         for (GlobalMonitor monitor : monitors) {
             monitor.initialize();
@@ -38,8 +31,9 @@ public class Main {
 
 
         while (true){
-            String forEmail = "<h1 style=\"color: #5e9ca0; text-align: center;\">CJP FileMonitor - R&eacute;sum&eacute;</h1>\n" +
-                    "<h2 style=\"color: #2e6c80; text-align: center;\">R&eacute;capitulatif d'analyse</h2>";
+            System.out.println("Scan ... ");
+            long deadline = (System.currentTimeMillis() - (appConfig.getMonitoringLifespan() * 60 * 1000));
+            String forEmail = "CJP File Monitor récapitulatif d'analyse : \n";
             boolean isSendMail = false;
             for (GlobalMonitor monitor : monitors) {
 
@@ -50,10 +44,10 @@ public class Main {
                 }
             }
             if (isSendMail) {
-                mailSender.sendEmail("Recap FileMonitoring", "<ul>" + forEmail + "</ul>");
+                System.out.println("Recap FileMonitoring " +  forEmail );
             }
 
-            Thread.sleep(30 * 1000);
+            Thread.sleep(appConfig.getMonitoringLifespan() * 60 * 1000 );
         }
 
 

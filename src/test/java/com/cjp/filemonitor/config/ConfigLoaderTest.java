@@ -35,8 +35,6 @@ class ConfigLoaderTest {
         if (!given.getMonitoringDirectory().equals("C:\bonjour")) {
             fail("wrong monitoring directory");
         }
-        if (!given.getEmailTo().equals("Alexandre.CHAMPAGNAC@clermont.unicancer.fr")) {
-            fail("wrong email recipient");
-        }
+
     }
 }
